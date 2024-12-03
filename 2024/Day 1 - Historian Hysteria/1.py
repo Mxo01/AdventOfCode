@@ -1,30 +1,29 @@
 def main():
-    list1 = []
-    list2 = []
-    total_distance = 0
+    lines = read_puzzle()
 
-    f = open("puzzle.txt", "r")
+    left = []
+    right = []
 
-    for line in f:
+    for line in lines:
         location_id_1 = int(line.split("   ")[0])
         location_id_2 = int(line.split("   ")[1])
-        list1.append(location_id_1)
-        list2.append(location_id_2)
+        left.append(location_id_1)
+        right.append(location_id_2)
 
-    sorted_list1 = sorted(list1)
-    sorted_list2 = sorted(list2)
+    left = sorted(left)
+    right = sorted(right)
 
-    for pos in range(len(sorted_list1)):
-        location_id_list1 = sorted_list1[pos]
-        location_id_list2 = sorted_list2[pos]
-
-        distance = abs(location_id_list1 - location_id_list2)
-
-        total_distance += distance
-
-    f.close()
+    total_distance = sum(abs(left[pos] - right[pos]) for pos in range(len(left)))
 
     print(total_distance)
+
+
+def read_puzzle():
+    f = open("puzzle.txt", "r")
+    lines = f.readlines()
+    f.close()
+
+    return lines
 
 
 if __name__ == "__main__":

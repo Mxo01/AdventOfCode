@@ -1,19 +1,17 @@
 def main():
+    lines = read_puzzle()
+
     safe_reports_count = 0
 
-    f = open("puzzle.txt", "r")
-
-    for line in f:
+    for line in lines:
         line = list(map(int, line.split(" ")))
+        safe_reports_count += (
+            1
+            if is_line_safe(line)
+            or any(is_line_safe(line[:i] + line[i + 1 :]) for i in range(len(line)))
+            else 0
+        )
 
-        if is_line_safe(line):
-            safe_reports_count += 1
-        else:
-            if any(is_line_safe(line[:i] + line[i + 1:]) for i in range(len(line))):
-                safe_reports_count += 1
-
-    f.close()
-    
     print(safe_reports_count)
 
 
@@ -29,6 +27,14 @@ def are_all_levels_safe(line):
     return all(
         1 <= abs(int(line[i]) - int(line[i + 1])) <= 3 for i in range(len(line) - 1)
     )
+
+
+def read_puzzle():
+    f = open("puzzle.txt", "r")
+    lines = f.readlines()
+    f.close()
+
+    return lines
 
 
 if __name__ == "__main__":
