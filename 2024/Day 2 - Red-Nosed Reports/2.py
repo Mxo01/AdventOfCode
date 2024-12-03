@@ -8,7 +8,12 @@ def main():
 
         if is_line_safe(line):
             safe_reports_count += 1
+        else:
+            if any(is_line_safe(line[:i] + line[i + 1:]) for i in range(len(line))):
+                safe_reports_count += 1
 
+    f.close()
+    
     print(safe_reports_count)
 
 
@@ -18,6 +23,7 @@ def is_line_safe(line):
 
 def is_sorted(line):
     return sorted(line) == line or sorted(line, reverse=True) == line
+
 
 def are_all_levels_safe(line):
     return all(
