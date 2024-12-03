@@ -1,8 +1,5 @@
 import re
 
-MUL_MATCHER = r"mul\(\d+,\d+\)"
-MULTIPLYIERS_MATCHER = r"\(\d+,\d+\)"
-
 
 def main():
     lines = read_puzzle()
@@ -13,7 +10,7 @@ def main():
         mul_sum += sum(
             map(
                 multiply,
-                re.findall(MUL_MATCHER, line),
+                re.findall(r"mul\(\d+,\d+\)", line),
             )
         )
 
