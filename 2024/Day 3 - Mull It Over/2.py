@@ -32,7 +32,7 @@ def multiply(mul_str):
 
 def read_puzzle():
     f = open("puzzle.txt", "r")
-    lines = f.readlines()
+    lines = f.read().splitlines()
     f.close()
 
     return lines

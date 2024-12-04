@@ -19,7 +19,7 @@ def are_all_levels_safe(line):
 
 def read_puzzle():
     f = open("puzzle.txt", "r")
-    lines = f.readlines()
+    lines = f.read().splitlines()
     f.close()
 
     return lines
