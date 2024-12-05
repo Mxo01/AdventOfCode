@@ -1,3 +1,5 @@
+from functools import cmp_to_key
+
 def main():
     lines = read_puzzle()
 
@@ -9,25 +11,7 @@ def main():
     print(middle_pages_sum)
 
 def updates_to_sum(updates, rules):
-    incorrect_updates = list(filter(lambda update: not is_update_correct(update, rules), updates))
-
-    for incorrect_update in incorrect_updates:
-        i = 0
-
-        while True:
-            if i == len(incorrect_update) - 1:
-                if is_update_correct(incorrect_update, rules):
-                    break
-
-                i = 0
-
-            if not incorrect_update[i] + "|" + incorrect_update[i + 1] in rules:
-                incorrect_update[i], incorrect_update[i + 1] = incorrect_update[i + 1], incorrect_update[i]
-
-            i += 1
-
-
-    return incorrect_updates
+    return list(map(lambda incorrect_update: sorted(incorrect_update, key=cmp_to_key(lambda page1, page2: 1 if page1 + "|" + page2 in rules else -1)), list(filter(lambda update: not is_update_correct(update, rules), updates))))
 
 def is_update_correct(update, rules):
     return all(update[i] + "|" + update[i + 1] in rules for i in range(len(update) - 1))
