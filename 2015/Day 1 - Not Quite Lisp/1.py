@@ -1,9 +1,6 @@
 def main():
     lines = read_puzzle()
-
-    floor = sum(1 if char == "(" else -1 for char in lines[0])
-
-    print(floor)
+    print(sum(1 if char == "(" else -1 for char in lines[0]))
 
 def read_puzzle():
     f = open("puzzle.txt", "r")
