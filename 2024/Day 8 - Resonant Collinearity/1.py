@@ -8,7 +8,7 @@ def main():
         for j in range(len(lines[i])):
             if lines[i][j].isdigit() or lines[i][j].isalpha():
                 antennas.setdefault(lines[i][j], []).append((i, j))
-                
+
     antennas = dict(filter(lambda antenna: len(antenna[1]) > 1, antennas.items()))
 
     for positions in antennas.values():
@@ -42,11 +42,9 @@ def main():
 
 def is_node_out_of_bounds(node, lines):
     return (
-        node[0] < 0
-        or node[0] >= len(lines[0])
-        or node[1] < 0
-        or node[1] >= len(lines)
+        node[0] < 0 or node[0] >= len(lines[0]) or node[1] < 0 or node[1] >= len(lines)
     )
+
 
 def read_puzzle():
     f = open("puzzle.txt", "r")
@@ -58,7 +56,3 @@ def read_puzzle():
 
 if __name__ == "__main__":
     main()
-
-{
-    "0": [(1, 8), (2, 5), (3, 7), (4, 4)],
-}

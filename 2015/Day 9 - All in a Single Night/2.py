@@ -64,10 +64,3 @@ def read_puzzle():
 
 if __name__ == "__main__":
     main()
-
-
-{
-    "London": {"Dublin": 464, "Belfast": 518},
-    "Dublin": {"London": 464, "Belfast": 141},
-    "Belfast": {"London": 518, "Dublin": 141},
-}
