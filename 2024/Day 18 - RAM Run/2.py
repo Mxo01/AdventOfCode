@@ -10,7 +10,8 @@ def main():
     lines = read_puzzle()
 
     bytes_positions = get_bytes_positions(lines)
-    coordinates = get_coordinates(bytes_positions)
+    grid = create_grid(bytes_positions)
+    coordinates = get_coordinates(grid, bytes_positions)
 
     print(coordinates)
 
@@ -19,18 +20,19 @@ def get_bytes_positions(lines):
     return [tuple(map(int, line.split(","))) for line in lines]
 
 
-def get_coordinates(bytes_positions):
+def get_coordinates(grid, bytes_positions):
     for incremental_allowed_bytes in range(allowed_bytes, len(bytes_positions)):
-        grid = create_grid(bytes_positions, incremental_allowed_bytes)
-        cost = a_star_search(grid)
+        y, x = bytes_positions[incremental_allowed_bytes - 1]
+        grid[x][y] = "#"
+        
 
-        if cost == -1:
+        if a_star_search(grid) == -1:
             return bytes_positions[incremental_allowed_bytes - 1]
 
     return None
 
 
-def create_grid(bytes_positions, allowed_bytes):
+def create_grid(bytes_positions):
     return [
         [
             "#" if (y, x) in bytes_positions[:allowed_bytes] else "."
@@ -40,7 +42,7 @@ def create_grid(bytes_positions, allowed_bytes):
     ]
 
 
-def a_star_search(maze, source=(0, 0), destination=(grid_size - 1, grid_size - 1)):
+def a_star_search(grid, source=(0, 0), destination=(grid_size - 1, grid_size - 1)):
     sx, sy = source
     priority_queue = [(heuristic(sx, sy, destination), (sx, sy, 0))]
     visited = set()
@@ -63,7 +65,7 @@ def a_star_search(maze, source=(0, 0), destination=(grid_size - 1, grid_size - 1
             if (
                 0 <= nx <= grid_size - 1
                 and 0 <= ny <= grid_size - 1
-                and maze[nx][ny] != "#"
+                and grid[nx][ny] != "#"
             ):
                 heapq.heappush(
                     priority_queue,

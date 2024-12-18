@@ -27,7 +27,7 @@ def create_grid(bytes_positions):
     ]
 
 
-def a_star_search(maze, source=(0, 0), destination=(grid_size - 1, grid_size - 1)):
+def a_star_search(grid, source=(0, 0), destination=(grid_size - 1, grid_size - 1)):
     sx, sy = source
     priority_queue = [(heuristic(sx, sy, destination), (sx, sy, 0))]
     visited = set()
@@ -50,7 +50,7 @@ def a_star_search(maze, source=(0, 0), destination=(grid_size - 1, grid_size - 1
             if (
                 0 <= nx <= grid_size - 1
                 and 0 <= ny <= grid_size - 1
-                and maze[nx][ny] != "#"
+                and grid[nx][ny] != "#"
             ):
                 heapq.heappush(
                     priority_queue,
