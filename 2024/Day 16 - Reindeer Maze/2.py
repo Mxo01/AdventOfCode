@@ -31,7 +31,7 @@ def find_source_and_destination(maze):
 
 def a_star_search(maze, source, destination):
     sx, sy = source
-    priority_queue = [(heuristic(sx, sy, destination), 0, [(sx, sy, "E")])]
+    priority_queue = [(heuristic(source, destination), 0, [(sx, sy, "E")])]
     visited = defaultdict(lambda: float("inf"))
     all_paths = []
     shortest_path_cost = float("inf")
@@ -65,7 +65,7 @@ def a_star_search(maze, source, destination):
                     heapq.heappush(
                         priority_queue,
                         (
-                            1 + cost + heuristic(nx, ny, destination),
+                            1 + cost + heuristic((nx, ny), destination),
                             1 + cost,
                             new_path,
                         ),
@@ -74,15 +74,20 @@ def a_star_search(maze, source, destination):
                 new_path = path + [(x, y, dir)]
                 heapq.heappush(
                     priority_queue,
-                    (1000 + cost + heuristic(x, y, destination), 1000 + cost, new_path),
+                    (
+                        1000 + cost + heuristic((x, y), destination),
+                        1000 + cost,
+                        new_path,
+                    ),
                 )
 
     return all_paths
 
 
-def heuristic(row, col, destination):
+def heuristic(source, destination):
+    sx, sy = source
     dx, dy = destination
-    return abs(row - dx) + abs(col - dy)
+    return abs(sx - dx) + abs(sy - dy)
 
 
 def count_tiles(best_paths):

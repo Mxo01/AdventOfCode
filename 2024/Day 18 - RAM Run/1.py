@@ -29,7 +29,7 @@ def create_grid(bytes_positions):
 
 def a_star_search(grid, source=(0, 0), destination=(grid_size - 1, grid_size - 1)):
     sx, sy = source
-    priority_queue = [(heuristic(sx, sy, destination), (sx, sy, 0))]
+    priority_queue = [(heuristic(source, destination), (sx, sy, 0))]
     visited = set()
 
     while priority_queue:
@@ -55,7 +55,7 @@ def a_star_search(grid, source=(0, 0), destination=(grid_size - 1, grid_size - 1
                 heapq.heappush(
                     priority_queue,
                     (
-                        1 + cost + heuristic(nx, ny, destination),
+                        1 + cost + heuristic((nx, ny), destination),
                         (nx, ny, cost + 1),
                     ),
                 )
@@ -63,9 +63,10 @@ def a_star_search(grid, source=(0, 0), destination=(grid_size - 1, grid_size - 1
     return -1
 
 
-def heuristic(row, col, destination):
+def heuristic(source, destination):
+    sx, sy = source
     dx, dy = destination
-    return abs(row - dx) + abs(col - dy)
+    return abs(sx - dx) + abs(sy - dy)
 
 
 def read_puzzle():

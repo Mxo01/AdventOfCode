@@ -29,7 +29,7 @@ def find_source_and_destination(maze):
 
 def a_star_search(maze, source, destination):
     sx, sy = source
-    priority_queue = [(heuristic(sx, sy, destination), (sx, sy, "E", 0))]
+    priority_queue = [(heuristic(source, destination), (sx, sy, "E", 0))]
     visited = set()
 
     while priority_queue:
@@ -52,7 +52,7 @@ def a_star_search(maze, source, destination):
                     heapq.heappush(
                         priority_queue,
                         (
-                            1 + cost + heuristic(nx, ny, destination),
+                            1 + cost + heuristic((nx, ny), destination),
                             (nx, ny, dir, cost + 1),
                         ),
                     )
@@ -60,7 +60,7 @@ def a_star_search(maze, source, destination):
                 heapq.heappush(
                     priority_queue,
                     (
-                        1000 + cost + heuristic(x, y, destination),
+                        1000 + cost + heuristic((x, y), destination),
                         (x, y, dir, cost + 1000),
                     ),
                 )
@@ -68,9 +68,10 @@ def a_star_search(maze, source, destination):
     return -1
 
 
-def heuristic(row, col, destination):
+def heuristic(source, destination):
+    sx, sy = source
     dx, dy = destination
-    return abs(row - dx) + abs(col - dy)
+    return abs(sx - dx) + abs(sy - dy)
 
 
 def read_puzzle():
